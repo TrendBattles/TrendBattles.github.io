@@ -1,0 +1,99 @@
+@font-face {
+  font-family: Roboto Regular;
+  src: url('./fonts/Roboto-Regular.ttf');
+}
+body {
+  font-family: Roboto Regular;
+  color: White;
+  margin: 0;
+  background-color: rgb(32,32,32);
+  text-align: center;
+}
+a:hover {
+  color: lightblue;
+  font-size: 120%;
+  transition: 0.3s;
+}
+a {
+  text-decoration: none;
+  color: White;
+  transition: 0.3s;
+}
+#followerCount,#followerCount2,#viewCount0 {
+  font-size: calc(2.5em + 2vw);
+  transition: 0.3s;
+}
+#YTImage,#YTImage2,#YTthnail {
+  border-radius: 50%;
+  width: 140px;
+  height: 140px;
+  border: 0.5vh solid white;
+}
+#YTName,#YTName2,#goal,#videoCount,#viewCount,#timer,#timer1,#timer2,#likeCount,#dislikeCount,#commentCount {
+  font-size: calc(1em + 1vw);
+}
+#goodbox {
+  background-color: rgb(0,0,0);
+  height: 70px;
+  width: 100%;
+}
+.tcbox {
+  margin: auto;
+  background-color: rgb(16,16,16);
+  width: 90%;
+  padding: 10px;
+  border-color: rgba(0,0,0);
+  border: 0.5px solid rgba(0,0,0);
+  border-radius: .50rem;
+  transition: 0.3s;
+}
+.lilbox {
+  margin: 0;
+  padding: 10px;
+  background-color: rgb(16,16,16);
+  width: 20%;
+  border-color: rgba(0,0,0);
+  border: 0.5px solid rgba(0,0,0);
+  border-radius: .50rem;
+  transition: 0.3s;
+}
+.flex{
+  width: 91.5%;
+  padding: 0;
+  margin: auto;
+  transition: 0.3s;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.official{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center !important;
+}
+.links {
+  position: absolute;
+  top: 0%;
+  left: 90%;
+  word-spacing: 5px;
+}
+#YTBanner:hover,#YTthnail2:hover {
+  border: 1px solid orange;
+  filter: blur(0px);
+  transition: 0.3s;
+}
+#YTBanner,#YTthnail2 {
+  filter: blur(5px);
+  transition: 0.3s;
+}
+.container {
+  margin: auto;
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: rgb(16,16,16);
+  border-color: rgba(0,0,0);
+  border: 0.5px solid rgba(0,0,0);
+}

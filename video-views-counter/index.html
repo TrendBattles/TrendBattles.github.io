@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+    <head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+     <meta name="description" content="Welcome to Trend Counts! This is where you can see realtime stats and all of that stuff.">
+     <meta name="image" content="https://trendbattles.github.io/favicon.ico">
+     <meta property="og:image" content="">
+     <meta property="og:type" content="">
+     <link rel="shortcut icon" href="../favicon.ico">
+     <link rel="stylesheet" href="../style.css">
+     <link rel="stylesheet" href="../odometer-theme-minimal.css">
+     <title>Trend Counts</title>
+     <script async src="https://arc.io/widget.min.js#ifBvykY6"></script>
+    </head>
+    <body>
+      <a href="../" style="position:absolute;left:5%">Home</a>
+      <a href="https://livecounts.me" style="position:absolute;left:80%" target="_blank">T1ch</a>
+      <a href="https://mixerno.space/" style="position:absolute;left:85%" target="_blank">Mixerno</a>
+      <br>
+      <div class="tcbox">
+        <img id="YTthnail2" width="100%" height="150" style="object-fit: cover;z-index: 1;" src="../favicon.ico"/>
+        <img id="YTthnail" src="../favicon.ico"/>
+        <br> <br>
+        <div id="YTName">TrendCounts</div>
+        <p id="vid"></p>
+        <div id="viewCount0" class="odometer live_view_count">0</div>
+        <p>Views</p>
+      </div>
+      <br>
+      <div class="flex">
+        <div class="lilbox">
+          <p>
+            <div id="goal" class="odometer goal">0</div>
+            <div>Goal</div>
+          </p>
+        </div>
+        <div class="lilbox">
+          <p>
+            <div id="likeCount" class="odometer live_like_count">0</div>
+            <div>Likes</div>
+          </p>
+        </div>
+        <div class="lilbox">
+          <p>
+            <div id="dislikeCount" class="odometer live_dislike_count">0</div>
+            <div>Dislikes</div>
+          </p>
+        </div>
+        <div class="lilbox">
+          <p>
+            <div id="commentCount" class="odometer live_comment_count">0</div>
+            <div>Comments</div>
+          </p>
+        </div>
+
+      </div>
+      <form id = "video_id" onsubmit="updatePage()">
+        <input type="text" name="id">
+        <input type="submit" value="Count!">
+      </form>
+    <script src="../jquery.min.js"></script>
+    <script src="../odometer.min.js"></script>
+    <script>
+      var countlength,likes,views,viewsA;
+      var param = location.href.split('?id=');
+      var video_id = param[1];
+      getViews();
+      function updatePage(){
+            location.href = `?id=${video_id}`;
+        }
+        async function getViews() {
+          let request = await fetch(`https://mixerno.space/api/yt/video/${video_id}`, { mode: "cors" })
+          let data = await request.json().catch(() => {})
+          if (!data.errors) {
+            console.log(data);
+            var multi = parseFloat(data.items[0].statistics.viewCount) / parseFloat(data.items[0].statistics.likeCount);
+            views = Math.floor(views + multi * (parseFloat(data.items[0].statistics.likeCount) - likes));
+            if (viewsA == data.items[0].statistics.viewCount) { } else {
+                views = parseFloat(data.items[0].statistics.viewCount);
+            }
+            viewsA = data.items[0].statistics.viewCount;
+            likes = parseFloat(data.items[0].statistics.likeCount);
+            likeCount.innerHTML = data.items[0].statistics.likeCount;
+            dislikeCount.innerHTML = data.items[0].statistics.dislikeCount;
+            goal.innerHTML = Goal(data.items[0].statistics.viewCount);
+            viewCount0.innerHTML = views;
+            commentCount.innerHTML = data.items[0].statistics.commentCount;
+            YTName.innerHTML = data.items[0].snippet.title;
+            document.getElementById('YTthnail').src = data.items[0].snippet.thumbnails.high.url;
+            document.getElementById('YTthnail2').src = data.items[0].snippet.thumbnails.high.url;
+            vid.innerHTML = data.items[0].id;
+          }
+        }
+        function Goal(a) {
+          if (a < 10) return 10 - a
+          else {
+            var x1 = Math.floor(Math.log10(a));
+            var x2 = Math.ceil(a / 10 ** x1);
+            var x3 = x2 * 10 ** x1;
+            return x3 - a;
+          }
+        }
+        setInterval(getViews, 2000);
+      </script>
+    </body>
+</html>

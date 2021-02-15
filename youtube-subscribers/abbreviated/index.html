@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+    <head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+     <meta name="description" content="Welcome to Trend Counts! This is where you can see realtime stats and all of that stuff.">
+     <meta name="image" content="https://trendbattles.github.io/favicon.ico">
+     <meta property="og:image" content="">
+     <meta property="og:type" content="">
+     <link rel="shortcut icon" href="https://trendbattles.github.io/favicon.ico">
+     <link rel="stylesheet" href="https://trendbattles.github.io/style.css">
+     <link rel="stylesheet" href="https://trendbattles.github.io/odometer-theme-minimal.css">
+     <title>Trend Counts</title>
+     <script async src="https://arc.io/widget.min.js#ifBvykY6"></script>
+    </head>
+    <body>
+      <a href="https://trendbattles.github.io" style="position:absolute;left:5%">Home</a>
+      <a href="https://livecounts.me" style="position:absolute;left:80%" target="_blank">T1ch</a>
+      <a href="https://mixerno.space/" style="position:absolute;left:85%" target="_blank">Mixerno</a>
+      <br>
+      <img id="YTBanner" width="100%" height="150" style="object-fit: cover;z-index: 1;" src="//trendbattles.github.io/favicon.ico"/>
+      <br>
+      <img id="YTImage" src="https://trendbattles.github.io/favicon.ico"/>
+      <br>
+      <br>
+      <div id="YTName">TrendCounts</div>
+      <p>
+        <strong>Subscribers Count:</strong>
+        <div id="followerCount" class="odometer live_sub_count">0</div>
+      </p>
+      <p>
+        <strong>Goal:<strong>
+        <div id="goal" class="odometer goal">0</div>
+      </p>
+      <p>
+        <strong>Total Videos:</strong>
+        <span id="videoCount" class="odometer live_video_count">0</span>
+      </p>
+      <p>
+        <strong>Views Count:</strong>
+        <span id="viewCount" class="odometer live_view_count">0</span>
+      </p>
+      <form id = "sub_id" onsubmit="updatePage()">
+        <input type="text" name="id">
+        <input type="submit" value="Count!">
+      </form>
+      <script src="https://trendbattles.github.io/jquery.min.js"></script>
+      <script src="https://trendbattles.github.io/odometer.min.js"></script>
+      <script>
+        var param = location.href.split('?id=');
+        var channel_id = param[1];
+        getYTStats();
+        function updatePage() {
+              var channel = document.getElementsByName("id").value;
+              location.href = `?id=${channel}`;
+        }
+          async function getYTStats() {
+            let request = await fetch(`https://mixerno.space/api/yt/channel/${channel_id}`, { mode: "cors" })
+            let data = await request.json().catch(() => {})
+            if (data.items) {
+              console.log(data.items);
+              videoCount.innerHTML = data.items[0].statistics.videoCount;
+              followerCount.innerHTML = data.items[0].statistics.subscriberCount;
+              viewCount.innerHTML = data.items[0].statistics.viewCount;
+              YTName.innerHTML = data.items[0].snippet.title;
+              goal.innerHTML = Goal(data.items[0].statistics.subscriberCount);
+              document.getElementById('YTImage').src = data.items[0].snippet.thumbnails.high.url;
+              document.getElementById('YTBanner').src = data.items[0].brandingSettings.image.bannerExternalUrl;
+            }
+          }
+          function Goal(a) {
+            if (a < 10) return 10 - a
+            else {
+              var x1 = Math.floor(Math.log10(a));
+              var x2 = Math.ceil(a / 10 ** x1);
+              var x3 = x2 * 10 ** x1;
+              return x3 - a;
+            }
+          }
+          setInterval(getYTStats, 2000);
+        </script>
+      </body>
+</html>

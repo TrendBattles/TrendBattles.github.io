@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+    <head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+     <meta name="description" content="Welcome to Trend Counts! This is where you can see realtime stats and all of that stuff.">
+     <meta name="image" content="https://trendbattles.github.io/favicon.ico">
+     <meta property="og:image" content="">
+     <meta property="og:type" content="">
+     <link rel="shortcut icon" href="../favicon.ico">
+     <link rel="stylesheet" href="../style.css">
+     <link rel="stylesheet" href="../odometer-theme-minimal.css">
+     <title>Trend Counts</title>
+     <script async src="https://arc.io/widget.min.js#ifBvykY6"></script>
+    </head>
+    <body>
+      <a href="../" style="position:absolute;left:5%">Home</a>
+      <a href="https://livecounts.me" style="position:absolute;left:80%" target="_blank">T1ch</a>
+      <a href="https://mixerno.space/" style="position:absolute;left:85%" target="_blank">Mixerno</a>
+      <img id="YTImage" style="width: 100px;height: 100px;" src="../favicon.ico"/>
+      <div id="YTName">TrendCounts</div>
+        <p>
+          <strong>Subscribers Count:</strong>
+          <div id="followerCount" class="odometer live_sub_count">0</div>
+        </p>
+        <p>
+          <strong>Total Videos:</strong>
+          <span id="VideoCount" class="odometer live_video_count">0</span>
+        </p>
+        <p>
+          <strong>Views Count:</strong>
+          <span id="ViewCount" class="odometer live_view_count">0</span>
+        </p>
+      </div>
+      <center>
+        <input type="text" id="id">
+          <input type="submit" onclick="updatePage1()" value="Submit">
+      </center>
+      <hr>
+        <div>Sub Gap</div>
+        <div class="odometer" id="YTSubGap">0</div>
+      <hr>
+      <img id="YTImage2" class="img-fluid border rounded-circle shadow image" style="width: 100px;height: 100px;" src="../favicon.ico"/>
+      <div id="YTName2">TrendCounts</div>
+        <p>
+          <div id="followerCount2" class="odometer live_sub_count">0</div></p>
+        <p>
+          <strong>Total Videos:</strong>
+          <span id="VideoCount2" class="odometer live_video_count">0</span>
+        </p>
+        <p>
+          <strong>Views Count:</strong>
+          <span id="ViewCount2" class="odometer live_view_count">0</span>
+        </p>
+      </div>
+      <center>
+        <input type="text" id="id2">
+          <input type="submit" onclick="updatePage2()" value="Submit">
+      </center>
+      <script src="../jquery.min.js"></script>
+      <script src="../odometer.min.js"></script>
+      <script>
+        var params = location.href.split('&id=');
+        var channel_id = params[1]; channel_id2 = params[2];
+        var count1 = 0; count2 = 0;
+        getYTStats();
+        function updatePage1(){
+            var channel = document.getElementById("id").value;
+            location.href = `?&id=${channel}&id=${channel_id2}`;
+        }
+        function updatePage2(){
+            var channel2 = document.getElementById("id2").value;
+            location.href = `?&id=${channel_id}&id=${channel2}`;
+        }
+        async function getYTStats() {
+          let request = await fetch(`https://api.mixerno.space/youtube/estimated/user/${channel_id}`, { mode: "cors" })
+          let data = await request.json().catch(() => {})
+          if (!data) return;
+          console.log(data);
+          VideoCount.innerHTML = data.videos;
+          followerCount.innerHTML = Math.floor(data.SubscriberCount);
+          ViewCount.innerHTML = data.totalviews;
+          YTName.innerHTML = data.name;
+          document.getElementById('YTImage').src = data.image;
+          count1 = parseFloat(Math.floor(data.SubscriberCount));
+          getYTStats2();
+        }
+        async function getYTStats2() {
+          let request = await fetch(`https://api.mixerno.space/youtube/estimated/user/${channel_id2}`, { mode: "cors" })
+          let data = await request.json().catch(() => {})
+          if (!data) return;
+          console.log(data);
+          VideoCount2.innerHTML = data.videos;
+          followerCount2.innerHTML = Math.floor(data.SubscriberCount);
+          ViewCount2.innerHTML = data.totalviews;
+          YTName2.innerHTML = data.name;
+          document.getElementById('YTImage2').src = data.image;
+          count2 = parseFloat(Math.floor(data.SubscriberCount));
+          YTSubGap.innerHTML = count1-count2;
+        }
+        setInterval(getYTStats, 2000);
+      </script>
+    </body>
+</html>
