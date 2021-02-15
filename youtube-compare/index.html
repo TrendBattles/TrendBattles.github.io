@@ -73,7 +73,7 @@
             location.href = `?&id=${channel_id}&id=${channel2}`;
         }
         async function getYTStats() {
-          let request = await fetch(`https://api.mixerno.space/youtube/estimated/user/${channel_id}`, { mode: "cors" })
+          let request = await fetch(`https://mixerno.space/api/youtube/estimated/user/${channel_id}`, { mode: "cors" })
           let data = await request.json().catch(() => {})
           if (!data) return;
           console.log(data);
@@ -86,7 +86,7 @@
           getYTStats2();
         }
         async function getYTStats2() {
-          let request = await fetch(`https://api.mixerno.space/youtube/estimated/user/${channel_id2}`, { mode: "cors" })
+          let request = await fetch(`https://mixerno.space/api/youtube/estimated/user/${channel_id2}`, { mode: "cors" })
           let data = await request.json().catch(() => {})
           if (!data) return;
           console.log(data);
