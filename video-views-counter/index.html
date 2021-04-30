@@ -83,7 +83,7 @@
             likes = parseFloat(data.items[0].statistics.likeCount);
             likeCount.innerHTML = data.items[0].statistics.likeCount;
             dislikeCount.innerHTML = data.items[0].statistics.dislikeCount;
-            goal.innerHTML = Goal(data.items[0].statistics.viewCount);
+            goal.innerHTML = Goal(views);
             viewCount0.innerHTML = views;
             commentCount.innerHTML = data.items[0].statistics.commentCount;
             YTName.innerHTML = data.items[0].snippet.title;
