@@ -63,7 +63,8 @@
         return parseFloat(Math.random() * (min - max) + max);
       }
       function Goal(a) {
-        if (a < 10) return 10 - a
+        if (a > 0) and (a < 10) return 10 - a
+        else if a < 0 return -a
         else {
           var x1 = Math.floor(Math.log10(a));
           var x2 = Math.ceil(a / 10 ** x1);
